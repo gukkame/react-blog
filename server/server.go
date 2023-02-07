@@ -24,7 +24,7 @@ func main() {
 
 func checkErr(err error) {
 	if err != nil {
-		fmt.Println("JUP ERROR")
+		fmt.Println("ERROR")
 		panic(err)
 	}
 }

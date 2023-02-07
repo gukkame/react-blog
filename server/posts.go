@@ -3,29 +3,28 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
 type post struct {
-	ID       int    `json:"id"`
-	Title    string `json:"title"`
-	Content  string `json:"content"`
-	Created  string `json:"created"`
-	Category string `json:"category"`
-	Username string `json:"username"`
+	ID      int    `json:"id"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+	Created string `json:"created"`
+	Image   string `json:"Image"`
 }
 
 func home(w http.ResponseWriter, req *http.Request) {
 	json.NewDecoder(req.Body)
 	var postdata []post
-	// var cookieData cookie
-	// decoder.Decode(&cookieData)
 	db, err := sql.Open("sqlite3", "./database/database.db")
 	checkErr(err)
-	// check := userCheck(cookieData.Username, cookieData.Cookie)
-	// fmt.Println("cookie check ", check)
+
 	postdata = getAllPosts(db)
-	// fmt.Println(postdata)
+
+	fmt.Println(postdata)
+
 	defer db.Close()
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -41,7 +40,7 @@ func getAllPosts(db *sql.DB) []post {
 	postinfo := make([]post, 0)
 	for rows.Next() { //for loop through database table
 		onePost := post{}
-		err = rows.Scan(&onePost.ID, &onePost.Title, &onePost.Content, &onePost.Created, &onePost.Category, &onePost.Username)
+		err = rows.Scan(&onePost.ID, &onePost.Title, &onePost.Content, &onePost.Created, &onePost.Image)
 		checkErr(err)
 		time := ""
 		time = onePost.Created[:10]
