@@ -15,7 +15,7 @@ type post struct {
 	Username string `json:"username"`
 }
 
-func posts(w http.ResponseWriter, req *http.Request) {
+func home(w http.ResponseWriter, req *http.Request) {
 	json.NewDecoder(req.Body)
 	var postdata []post
 	// var cookieData cookie

@@ -28,4 +28,3 @@ func checkErr(err error) {
 		panic(err)
 	}
 }
-func home(http.ResponseWriter, *http.Request) {}
