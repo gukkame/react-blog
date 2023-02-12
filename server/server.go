@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", home)
 
 	database()
 
+	http.HandleFunc("/", home)
 	//IMAGES -> ./resources
 	fileServer := http.FileServer(http.Dir("./resources"))
 	http.Handle("/resources/", http.StripPrefix("/resources", fileServer))
