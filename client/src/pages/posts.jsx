@@ -1,26 +1,29 @@
 
+import { useEffect, useState } from 'react'
+export default function Blog({ post }) {
 
-export default function Blog({ posts }) {
+
+  const[reactData, setReactData] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:8080/')
+    .then(res => res.json())
+    .then(data => {
+      setReactData(data);
+    }).catch((e) => {console.log(e)});
+  }, []);
+
   return (
     <ul>
-      {posts.map((post) => (
-        <li>{post.title}</li>
-      ))}
+     {reactData.map((post, index) => (
+          <tr>
+    
+            <td>{post.id}</td>
+            <td>{post.username}</td>
+            <td>{post.title}</td>
+          </tr>
+        ))}
+     
     </ul>
   )
 }
 
-export async function getStaticPaths() {
-  // Call an external API endpoint to get posts
-  const res = await fetch('http://localhost:8080/')
-  const posts = await res.json()
-
-  // Get the paths we want to pre-render based on posts
-  const paths = posts.map((post) => ({
-    params: { id: post.id },
-  }))
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false }
-}

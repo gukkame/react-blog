@@ -1,10 +1,37 @@
 import { useRouter } from 'next/router'
+import Head from 'next/head'
+import styles from '../../styles/Home.module.css'
 
-const Post = () => {
-  const router = useRouter()
-  const { pid } = router.query
+export default function Car({ car }) {
 
-  return <p>Post: {pid}</p>
+    const router = useRouter()
+    const { id } = router.query
+    return (
+        <div className={styles.container}>
+            <Head>
+                <title>{car.color} {car.id}</title>
+            </Head>
+
+            <main className={styles.main}>
+                <h1 className={styles.title}>
+                    {id}
+                </h1>
+
+                <img src={car.image} width="300px" />
+
+            </main>
+        </div>
+    )
 }
 
-export default Post
+
+export async function getStaticProps({ params }) {
+
+    const req = await fetch(`http://localhost:8080/${params.id}`);
+    const data = await req.json();
+
+    return {
+        props: { car: data },
+    }
+}
+

@@ -11,6 +11,9 @@ func main() {
 	database()
 
 	http.HandleFunc("/", home)
+	// http.HandleFunc("/post", post) //Get specific post, based on post id 
+
+	
 	//IMAGES -> ./resources
 	fileServer := http.FileServer(http.Dir("./resources"))
 	http.Handle("/resources/", http.StripPrefix("/resources", fileServer))

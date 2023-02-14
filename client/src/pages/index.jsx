@@ -4,10 +4,22 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+
+
+//todo Page to fetch all data and display in card format (title, image, little bit content)
+
+//todo press on card, creates link /blog-title, send to it, opens /posts/[pid].js file/page 
+
+
+export default function Home({ posts }) {
+
+
+  const router = useRouter()
+  // const { id } = router.query
   return (
     <>
       <Head>
@@ -16,24 +28,36 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <h2 className={styles.center}>Front-end technology blog </h2>
       <main className={styles.main}>
-        <h2>Heyy</h2>
 
-        <ul>
-          <li>
-            <Link href="/post/abc">A</Link>
-          </li>
-          <li>
-            <Link href="/post/abc?foo=bar">B</Link>
-          </li>
-          <li>
-            <Link href="/post/abc/a-comment">
-              C
-            </Link>
-          </li>
-        </ul>
+        <div className={styles.grid}>
+          {posts.map((post) => (
+            // <h2>{post.id}</h2>
+
+
+            <div className={styles.card}>
+              {/* <img src="img_avatar.png" alt="Avatar" style="width:100%"></img> */}
+              {/* <div className={styles.container}> */}
+              <h4><b>{post.title}</b></h4>
+              <p className={styles.text}>{post.content}</p>
+              {/* </div> */}
+            </div>
+
+          ))}
+
+        </div>
 
       </main>
     </>
   )
+}
+export async function getStaticProps() {
+
+  const req = await fetch(`http://localhost:8080/`);
+  const data = await req.json();
+  console.log(data);
+  return {
+    props: { posts: data },
+  }
 }
