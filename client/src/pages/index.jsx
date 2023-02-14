@@ -35,14 +35,13 @@ export default function Home({ posts }) {
           {posts.map((post) => (
             // <h2>{post.id}</h2>
 
-
-            <div className={styles.card}>
+            <Link href={`/${encodeURIComponent(post.title)}`} className={styles.card}>
               {/* <img src="img_avatar.png" alt="Avatar" style="width:100%"></img> */}
               {/* <div className={styles.container}> */}
               <h4><b>{post.title}</b></h4>
               <p className={styles.text}>{post.content}</p>
               {/* </div> */}
-            </div>
+            </Link>
 
           ))}
 
@@ -52,11 +51,12 @@ export default function Home({ posts }) {
     </>
   )
 }
-export async function getStaticProps() {
+export async function getServerSideProps() {
+
 
   const req = await fetch(`http://localhost:8080/`);
   const data = await req.json();
-  console.log(data);
+  // console.log(data);
   return {
     props: { posts: data },
   }

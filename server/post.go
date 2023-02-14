@@ -3,32 +3,28 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
-type post struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Title    string `json:"title"`
-	Content  string `json:"content"`
-	Created  string `json:"created"`
-	Image    string `json:"Image"`
+type incomingData struct {
+	Title  string `json:"title"`
+	
 }
 
-func home(w http.ResponseWriter, req *http.Request) {
-
-	json.NewDecoder(req.Body)
-	// var title string
+func singlePost(w http.ResponseWriter, req *http.Request) {
+	decoder := json.NewDecoder(req.Body)
+	var data incomingData
 
 	//decoded recieved data
-	// decoder.Decode(&title)
-	// fmt.Println("blog posts title", title)
+	decoder.Decode(&data)
+	fmt.Println("blog posts title", data.Title)
 
 	var postdata []post
 	db, err := sql.Open("sqlite3", "./database/database.db")
 	checkErr(err)
 
-	postdata = getAllPosts(db)
+	postdata = getPost(db, data)
 
 	// fmt.Println(postdata)
 
@@ -41,8 +37,8 @@ func home(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func getAllPosts(db *sql.DB) []post {
-	rows, err := db.Query("SELECT id, username, title, content, created FROM post")
+func getPost(db *sql.DB, data incomingData) []post {
+	rows, err := db.Query("SELECT id, username, title, content, created FROM post WHERE title = ?", (data.Title))
 	checkErr(err)
 	postinfo := make([]post, 0)
 	for rows.Next() { //for loop through database table

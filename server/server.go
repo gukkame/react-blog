@@ -8,12 +8,12 @@ import (
 
 func main() {
 
-	database()
+	// database()
 
 	http.HandleFunc("/", home)
-	// http.HandleFunc("/post", post) //Get specific post, based on post id 
+	http.HandleFunc("/post", singlePost) //Get specific post, based on post id 
 
-	
+
 	//IMAGES -> ./resources
 	fileServer := http.FileServer(http.Dir("./resources"))
 	http.Handle("/resources/", http.StripPrefix("/resources", fileServer))
