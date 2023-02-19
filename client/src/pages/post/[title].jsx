@@ -19,7 +19,7 @@ export default function PostPage({ postData }) {
       {postData.map((post) => (
         <div className={styles.container}>
           <h1>{post.title}</h1> <br />
-          <p>Post content: {post.content}</p>
+          <p>{post.content}</p>
         </div>
       ))}
 
@@ -29,7 +29,8 @@ export default function PostPage({ postData }) {
 }
 
 export async function getServerSideProps({ query }) {
-  const postTitle = query.post
+  const postTitle = query.title
+  console.log(postTitle);
 
   let data = {
     title: postTitle
@@ -37,7 +38,7 @@ export async function getServerSideProps({ query }) {
 
   const req = await fetch(`http://localhost:8080/post`, { method: "POST", body: JSON.stringify(data) });
   const incomingData = await req.json();
-  console.log(incomingData);
+  // console.log(incomingData);
   return {
     props: { postData: incomingData },
   }

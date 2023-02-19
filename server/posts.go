@@ -12,7 +12,7 @@ type post struct {
 	Title    string `json:"title"`
 	Content  string `json:"content"`
 	Created  string `json:"created"`
-	Image    string `json:"Image"`
+	Image    string `json:"image"`
 }
 
 func home(w http.ResponseWriter, req *http.Request) {
@@ -42,12 +42,12 @@ func home(w http.ResponseWriter, req *http.Request) {
 }
 
 func getAllPosts(db *sql.DB) []post {
-	rows, err := db.Query("SELECT id, username, title, content, created FROM post")
+	rows, err := db.Query("SELECT id, username, title, content, created, image FROM post")
 	checkErr(err)
 	postinfo := make([]post, 0)
 	for rows.Next() { //for loop through database table
 		onePost := post{}
-		err = rows.Scan(&onePost.ID, &onePost.Username, &onePost.Title, &onePost.Content, &onePost.Created)
+		err = rows.Scan(&onePost.ID, &onePost.Username, &onePost.Title, &onePost.Content, &onePost.Created, &onePost.Image )
 		checkErr(err)
 		time := ""
 		time = onePost.Created[:10]

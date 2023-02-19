@@ -1,11 +1,10 @@
 import Head from 'next/head'
 import About from './posts'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
+import Image from "next/image"
 const inter = Inter({ subsets: ['latin'] })
 
 
@@ -18,8 +17,10 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home({ posts }) {
 
 
+
   const router = useRouter()
   // const { id } = router.query
+
   return (
     <>
       <Head>
@@ -33,16 +34,15 @@ export default function Home({ posts }) {
 
         <div className={styles.grid}>
           {posts.map((post) => (
-            // <h2>{post.id}</h2>
 
-            <Link href={`/${encodeURIComponent(post.title)}`} className={styles.card}>
-              {/* <img src="img_avatar.png" alt="Avatar" style="width:100%"></img> */}
-              {/* <div className={styles.container}> */}
-              <h4><b>{post.title}</b></h4>
-              <p className={styles.text}>{post.content}</p>
-              {/* </div> */}
-            </Link>
+            <div key={post.id}>
+              <Link href={`/post/${encodeURIComponent(post.title)}`} className={styles.card}>
+                <Image src={post.image} alt="Avatar" width="250" height="180" />
+                <h4><b>{post.title}</b></h4>
+                <p className={styles.text}>{post.content}</p>
 
+              </Link>
+            </div>
           ))}
 
         </div>

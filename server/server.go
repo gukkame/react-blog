@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	// database()
+	database()
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/post", singlePost) //Get specific post, based on post id 

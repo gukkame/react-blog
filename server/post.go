@@ -38,12 +38,12 @@ func singlePost(w http.ResponseWriter, req *http.Request) {
 }
 
 func getPost(db *sql.DB, data incomingData) []post {
-	rows, err := db.Query("SELECT id, username, title, content, created FROM post WHERE title = ?", (data.Title))
+	rows, err := db.Query("SELECT id, username, title, content, image, created FROM post WHERE title = ?", (data.Title))
 	checkErr(err)
 	postinfo := make([]post, 0)
 	for rows.Next() { //for loop through database table
 		onePost := post{}
-		err = rows.Scan(&onePost.ID, &onePost.Username, &onePost.Title, &onePost.Content, &onePost.Created)
+		err = rows.Scan(&onePost.ID, &onePost.Username, &onePost.Title, &onePost.Content, &onePost.Image, &onePost.Created)
 		checkErr(err)
 		time := ""
 		time = onePost.Created[:10]
