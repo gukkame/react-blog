@@ -9,7 +9,6 @@ import (
 
 type incomingData struct {
 	Title  string `json:"title"`
-	
 }
 
 func singlePost(w http.ResponseWriter, req *http.Request) {

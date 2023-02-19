@@ -1,25 +1,25 @@
 import Head from 'next/head'
-import About from './posts'
-import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useState } from "react";
 import Image from "next/image"
-const inter = Inter({ subsets: ['latin'] })
-
-
-
-//todo Page to fetch all data and display in card format (title, image, little bit content)
-
-//todo press on card, creates link /blog-title, send to it, opens /posts/[pid].js file/page 
-
+import Pagination from "../components/Pagination";
 
 export default function Home({ posts }) {
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
 
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  };
 
-  const router = useRouter()
-  // const { id } = router.query
+  const paginate = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    return items.slice(startIndex, startIndex + pageSize); // 0, 9
+  };
+
+  const paginatedPosts = paginate(posts, currentPage, pageSize);
 
   return (
     <>
@@ -29,17 +29,18 @@ export default function Home({ posts }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h2 className={styles.center}>Front-end technology blog </h2>
+      <h1 className={styles.center}>Front-end technology blog </h1>
       <main className={styles.main}>
 
         <div className={styles.grid}>
-          {posts.map((post) => (
+          {paginatedPosts.map((post) => (
 
-            <div key={post.id}>
-              <Link href={`/post/${encodeURIComponent(post.title)}`} className={styles.card}>
-                <Image src={post.image} alt="Avatar" width="250" height="180" />
-                <h4><b>{post.title}</b></h4>
-                <p className={styles.text}>{post.content}</p>
+            <div className={styles.card} key={post.id}>
+              <Link href={`/post/${encodeURIComponent(post.slug)}`} >
+                <Image src={post.image} alt="Avatar" width="250" height="160" />
+
+                <h3 style={{ marginTop: '10px' }}>{post.title}</h3>
+                {/* <p className={styles.text}>{post.content}</p> */}
 
               </Link>
             </div>
@@ -47,17 +48,25 @@ export default function Home({ posts }) {
 
         </div>
 
+        <div >
+          <Pagination
+            items={posts.length} 
+            currentPage={currentPage}
+            pageSize={pageSize}
+            onPageChange={onPageChange}
+          />
+
+        </div>
       </main>
     </>
   )
 }
 export async function getServerSideProps() {
-
-
   const req = await fetch(`http://localhost:8080/`);
   const data = await req.json();
-  // console.log(data);
+
   return {
     props: { posts: data },
   }
 }
+

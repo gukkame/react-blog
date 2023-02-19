@@ -4,12 +4,14 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"strings"
 )
 
 type post struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
 	Title    string `json:"title"`
+	Slug     string `json:"slug"`
 	Content  string `json:"content"`
 	Created  string `json:"created"`
 	Image    string `json:"image"`
@@ -47,12 +49,13 @@ func getAllPosts(db *sql.DB) []post {
 	postinfo := make([]post, 0)
 	for rows.Next() { //for loop through database table
 		onePost := post{}
-		err = rows.Scan(&onePost.ID, &onePost.Username, &onePost.Title, &onePost.Content, &onePost.Created, &onePost.Image )
+		err = rows.Scan(&onePost.ID, &onePost.Username, &onePost.Title, &onePost.Content, &onePost.Created, &onePost.Image)
 		checkErr(err)
 		time := ""
 		time = onePost.Created[:10]
 		time += " " + onePost.Created[11:19]
 		onePost.Created = time
+		onePost.Slug = strings.Replace(onePost.Title, " ", "-", -1)
 		postinfo = append(postinfo, onePost)
 	}
 	return postinfo

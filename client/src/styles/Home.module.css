@@ -1,23 +1,15 @@
 .main {
   display: flex;
-  flex-direction:row;
+  flex-direction:column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
+  padding: 0 6rem;
   min-height: 30vh;
 }
 .container{
   align-items: center;
   margin: 200px 20% 0 20% ;
   white-space: pre-line
-}
-
-.text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 4; /* number of lines to show */
-  -webkit-box-orient: vertical;
 }
 
 .grid {
@@ -27,6 +19,54 @@
   max-width: 100%;
   flex-wrap: wrap;
   margin: auto;
+}
+
+.container {
+  padding: 0 2rem;
+}
+
+ .pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+ }
+ 
+ .pageLink {
+  cursor: pointer;
+ }
+ 
+ /* pagination pageItem */
+ .pageItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 2rem;
+  border: 1px solid #eaeaea;
+  /* border-radius: 0.5rem; */
+  cursor: pointer;
+ }
+ 
+ /* pagination page item when active */
+ .pageItemActive {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 2rem;
+  border: 1px solid #eaeaea;
+  /* border-radius: 0.5rem; */
+  cursor: pointer;
+  background-color: rgb(23, 90, 167);
+ }
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
 
 .card {

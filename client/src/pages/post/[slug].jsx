@@ -17,8 +17,10 @@ export default function PostPage({ postData }) {
       </Head>
 
       {postData.map((post) => (
-        <div className={styles.container}>
+        <div className={styles.container} key={post.id}>
           <h1>{post.title}</h1> <br />
+          <p style={{ color: 'grey' }}>Author: {post.username}</p>
+          <br />
           <p>{post.content}</p>
         </div>
       ))}
@@ -29,7 +31,7 @@ export default function PostPage({ postData }) {
 }
 
 export async function getServerSideProps({ query }) {
-  const postTitle = query.title
+  const postTitle = (query.slug).replaceAll("-", " ")
   console.log(postTitle);
 
   let data = {
