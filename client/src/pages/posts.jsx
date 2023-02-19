@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react'
-export default function Blog({ post }) {
+export default function Blog() {
 
 
   const[reactData, setReactData] = useState([]);
@@ -14,9 +14,8 @@ export default function Blog({ post }) {
 
   return (
     <ul>
-     {reactData.map((post, index) => (
+     {reactData.map((post) => (
           <tr>
-    
             <td>{post.id}</td>
             <td>{post.username}</td>
             <td>{post.title}</td>

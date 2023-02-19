@@ -27,16 +27,16 @@ func database() {
 	}
 	createPost(dbConn)
 
-	defer dbConn.Close() // Defer Closing the database
+	defer dbConn.Close() 
 }
 
-// todo add image path to database
+
 func createPost(dbConn *sql.DB) {
 	statement, _ := dbConn.Prepare(`
 	CREATE TABLE  post  (
 		id  INTEGER not null PRIMARY KEY AUTOINCREMENT,
 		username varchar(255) not null,
-		title varchar(255) not null,
+		title varchar(255) not null unique,
 		content  text not null,
 		image varchar(255) not null,
 		created  datetime not null DEFAULT CURRENT_TIMESTAMP

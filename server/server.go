@@ -10,13 +10,10 @@ func main() {
 
 	database()
 
-	http.HandleFunc("/", home)
-	http.HandleFunc("/post", singlePost) //Get specific post, based on post id 
+	http.HandleFunc("/", home) //Home page
+	http.HandleFunc("/post", singlePost) //Get post, based on post id 
 
 
-	//IMAGES -> ./resources
-	fileServer := http.FileServer(http.Dir("./resources"))
-	http.Handle("/resources/", http.StripPrefix("/resources", fileServer))
 	//GOLANG SERVER
 	fmt.Printf("API Server running at port http://localhost:8080/\n")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
